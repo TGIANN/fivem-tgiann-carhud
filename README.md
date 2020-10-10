@@ -1,7 +1,10 @@
-# tgiann-carhud
-Fivem tgiann-carhud script
+#Fivem tgiann-carhud script
 
-Requirements
-- interact-sound (https://github.com/plunkettscott/interact-sound)
+**Credit**
+* SimpleCarHUD (https://github.com/bepo13/FiveM-SimpleCarHUD)
+* Compass and street name HUD (https://forum.cfx.re/t/release-compass-and-street-name-hud)
 
-Video: https://streamable.com/2s8q6y
+**Requirements**
+* interact-sound (https://github.com/plunkettscott/interact-sound)
+
+Video: https://streamable.com/2s8q6y
