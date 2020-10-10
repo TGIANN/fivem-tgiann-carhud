@@ -1,5 +1,5 @@
 #Fivem tgiann-carhud script
-![Alt text](https://imgur.com/MEQDWw4 "IMG")
+![IMG](https://i.imgur.com/MEQDWw4.png "IMG")
 
 **Credit**
 * SimpleCarHUD (https://github.com/bepo13/FiveM-SimpleCarHUD)
