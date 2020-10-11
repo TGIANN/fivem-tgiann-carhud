@@ -171,13 +171,13 @@ Citizen.CreateThread(function()
         
         while tickPosition < screenPosX + 0.0325 do
             if (tickDegree % 90.0) == 0 then
-                DrawRect(tickPosition, screenPosY + 0.095, compass.cardinal.tickSize.w, compass.cardinal.tickSize.h, compass.cardinal.tickColour.r, compass.cardinal.tickColour.g, compass.cardinal.tickColour.b, compass.cardinal.tickColour.a )
+                DrawRect(tickPosition + TGIANN.positionx, screenPosY + 0.095 + TGIANN.positiony, compass.cardinal.tickSize.w, compass.cardinal.tickSize.h, compass.cardinal.tickColour.r, compass.cardinal.tickColour.g, compass.cardinal.tickColour.b, compass.cardinal.tickColour.a )
                 drawText(degreesToIntercardinalDirection(tickDegree), 4, compass.cardinal.textColour, 0.4, tickPosition, screenPosY + 0.095 + compass.cardinal.textOffset, true, true)
             elseif (tickDegree % 45.0) == 0 then
-                DrawRect(tickPosition, screenPosY + 0.1025, compass.intercardinal.tickSize.w, compass.intercardinal.tickSize.h, compass.intercardinal.tickColour.r, compass.intercardinal.tickColour.g, compass.intercardinal.tickColour.b, compass.intercardinal.tickColour.a )
+                DrawRect(tickPosition + TGIANN.positionx, screenPosY + 0.1025 + TGIANN.positiony, compass.intercardinal.tickSize.w, compass.intercardinal.tickSize.h, compass.intercardinal.tickColour.r, compass.intercardinal.tickColour.g, compass.intercardinal.tickColour.b, compass.intercardinal.tickColour.a )
                 drawText(degreesToIntercardinalDirection(tickDegree), 4, compass.cardinal.textColour, 0.26, tickPosition, screenPosY + 0.095 + compass.intercardinal.textOffset, true, true)
             elseif  (tickDegree % 90.0) == 63.0 or (tickDegree % 90.0) == 54.0 or (tickDegree % 90.0) == 27.0 or (tickDegree % 90.0) == 36.0 then
-                DrawRect(tickPosition, screenPosY + 0.104, compass.tickSize.w, compass.tickSize.h, compass.tickColour.r, compass.tickColour.g, compass.tickColour.b, compass.tickColour.a )
+                DrawRect(tickPosition + TGIANN.positionx, screenPosY + 0.104 + TGIANN.positiony, compass.tickSize.w, compass.tickSize.h, compass.tickColour.r, compass.tickColour.g, compass.tickColour.b, compass.tickColour.a )
             end
 
             tickDegree = tickDegree + compass.ticksBetweenCardinals
@@ -222,9 +222,7 @@ Citizen.CreateThread(function()
                     end
                 end
 
-                if TGIANN.seatbeltDisableExit then
-                    DisableControlAction(0, 75)
-                end
+                if TGIANN.seatbeltDisableExit and seatbeltIsOn then DisableControlAction(0, 75) end
 			  
                 -- When player in driver seat, handle cruise control
                 if (GetPedInVehicleSeat(vehicle, -1) == PlayerPed) then
@@ -390,7 +388,7 @@ function drawText(text, font, colour, scale, x, y, outline, centered)
     if outline then SetTextOutline() end
 	SetTextEntry("STRING")
 	AddTextComponentString(text)
-	DrawText(x, y)
+	DrawText(x + TGIANN.positionx, y + TGIANN.positiony)
 end
 
 function degreesToIntercardinalDirection(dgr)
