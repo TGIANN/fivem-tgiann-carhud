@@ -168,15 +168,28 @@ Citizen.CreateThread(function()
         local tickDegreeRemainder = compass.ticksBetweenCardinals - (tickDegree % compass.ticksBetweenCardinals)
         local tickPosition = screenPosX + 0.005 + tickDegreeRemainder * pxDegree
         tickDegree = tickDegree + tickDegreeRemainder
-        
+        --[[
+        Draw2DText(.5, .3, "~r~The tickDegree is: ~b~" .. tostring(tickDegree), 1.0, 1);
+        Draw2DText(.5, .5, "~r~The tickDegree % 90.0 is: ~b~" .. tostring((tickDegree % 90)), 1.0, 1);
+        Draw2DText(.5, .7, "~r~The tickDegree % 45.0 is: ~b~" .. tostring((tickDegree % 45)), 1.0, 1);
+        ]]--
+
         while tickPosition < screenPosX + 0.0325 do
             if (tickDegree % 90.0) == 0 then
-                DrawRect(tickPosition + TGIANN.positionx, screenPosY + 0.095 + TGIANN.positiony, compass.cardinal.tickSize.w, compass.cardinal.tickSize.h, compass.cardinal.tickColour.r, compass.cardinal.tickColour.g, compass.cardinal.tickColour.b, compass.cardinal.tickColour.a )
-                drawText(degreesToIntercardinalDirection(tickDegree), 4, compass.cardinal.textColour, 0.4, tickPosition, screenPosY + 0.095 + compass.cardinal.textOffset, true, true)
-            elseif (tickDegree % 45.0) == 0 then
+                -- OLD:
+                --DrawRect(tickPosition + TGIANN.positionx, screenPosY + 0.095 + TGIANN.positiony, compass.cardinal.tickSize.w, compass.cardinal.tickSize.h, compass.cardinal.tickColour.r, compass.cardinal.tickColour.g, compass.cardinal.tickColour.b, compass.cardinal.tickColour.a )
+                --drawText(degreesToIntercardinalDirection(tickDegree), 4, compass.cardinal.textColour, 0.4, tickPosition, screenPosY + 0.095 + compass.cardinal.textOffset, true, true)
+            
                 DrawRect(tickPosition + TGIANN.positionx, screenPosY + 0.1025 + TGIANN.positiony, compass.intercardinal.tickSize.w, compass.intercardinal.tickSize.h, compass.intercardinal.tickColour.r, compass.intercardinal.tickColour.g, compass.intercardinal.tickColour.b, compass.intercardinal.tickColour.a )
                 drawText(degreesToIntercardinalDirection(tickDegree), 4, compass.cardinal.textColour, 0.26, tickPosition, screenPosY + 0.095 + compass.intercardinal.textOffset, true, true)
-            elseif  (tickDegree % 90.0) == 63.0 or (tickDegree % 90.0) == 54.0 or (tickDegree % 90.0) == 27.0 or (tickDegree % 90.0) == 36.0 then
+            elseif (tickDegree % 45.0) == 0 then
+                -- OLD:
+                --DrawRect(tickPosition + TGIANN.positionx, screenPosY + 0.1025 + TGIANN.positiony, compass.intercardinal.tickSize.w, compass.intercardinal.tickSize.h, compass.intercardinal.tickColour.r, compass.intercardinal.tickColour.g, compass.intercardinal.tickColour.b, compass.intercardinal.tickColour.a )
+                --drawText(degreesToIntercardinalDirection(tickDegree), 4, compass.cardinal.textColour, 0.26, tickPosition, screenPosY + 0.095 + compass.intercardinal.textOffset, true, true)
+                
+                DrawRect(tickPosition + TGIANN.positionx, screenPosY + 0.095 + TGIANN.positiony, compass.cardinal.tickSize.w, compass.cardinal.tickSize.h, compass.cardinal.tickColour.r, compass.cardinal.tickColour.g, compass.cardinal.tickColour.b, compass.cardinal.tickColour.a )
+                drawText(degreesToIntercardinalDirection(tickDegree), 4, compass.cardinal.textColour, 0.4, tickPosition, screenPosY + 0.095 + compass.cardinal.textOffset, true, true)
+            elseif  (tickDegree % 90.0) == 81.0 or (tickDegree % 90.0) == 72.0 or (tickDegree % 90.0) == 9.0 or (tickDegree % 90.0) == 18.0 then
                 DrawRect(tickPosition + TGIANN.positionx, screenPosY + 0.104 + TGIANN.positiony, compass.tickSize.w, compass.tickSize.h, compass.tickColour.r, compass.tickColour.g, compass.tickColour.b, compass.tickColour.a )
             end
 
@@ -385,29 +398,48 @@ function drawText(text, font, colour, scale, x, y, outline, centered)
     end
     SetTextDropShadow(0, 0, 0, 0, 255)
 	if centered then SetTextCentre(true) end
-    if outline then SetTextOutline() end
-	SetTextEntry("STRING")
+    --if outline then SetTextOutline() end
+    SetTextEntry("STRING")
 	AddTextComponentString(text)
 	DrawText(x + TGIANN.positionx, y + TGIANN.positiony)
 end
 
-function degreesToIntercardinalDirection(dgr)
-	local dgr = dgr % 360.0
+function Draw2DText(x, y, text, scale, center)
+    -- Draw text on screen
+    SetTextFont(4)
+    SetTextProportional(7)
+    SetTextScale(scale, scale)
+    SetTextColour(255, 255, 255, 255)
+    SetTextDropShadow(0, 0, 0, 0,255)
+    SetTextDropShadow()
+    SetTextEdge(4, 0, 0, 0, 255)
+    SetTextOutline()
+    if center then 
+    	SetTextJustification(0)
+    end
+    SetTextEntry("STRING")
+    AddTextComponentString(text)
+    DrawText(x, y)
+end
+
+function degreesToIntercardinalDirection( dgr )
+	dgr = dgr % 360.0
+	
 	if (dgr >= 0.0 and dgr < 22.5) or dgr >= 337.5 then
-		return "N "
+		return "NE" -- Originally E
 	elseif dgr >= 22.5 and dgr < 67.5 then
-		return "NE"
+		return "E" -- Originally SE
 	elseif dgr >= 67.5 and dgr < 112.5 then
-		return "E"
+		return "SE" -- Originally S
 	elseif dgr >= 112.5 and dgr < 157.5 then
-		return "SE"
+		return "S" -- Originally SW
 	elseif dgr >= 157.5 and dgr < 202.5 then
-		return "S"
+		return "SW" -- Originally W
 	elseif dgr >= 202.5 and dgr < 247.5 then
-		return "SW"
+		return "W" -- Originally NW
 	elseif dgr >= 247.5 and dgr < 292.5 then
-		return "W"
+		return "NW" -- Originally N
 	elseif dgr >= 292.5 and dgr < 337.5 then
-		return "NW"
+		return "N" -- Originally NE
 	end
 end
